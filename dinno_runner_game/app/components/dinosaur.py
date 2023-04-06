@@ -1,6 +1,8 @@
 import pygame
 from pygame.sprite import Sprite
 from app.utils.constants import DEFAULT_TYPE, RUNNING, JUMPING, DUCKING
+from app.components.objets.text_manager import Text
+
 
 DUCK_IMG = {DEFAULT_TYPE: DUCKING, }
 RUN_IMG = {DEFAULT_TYPE: RUNNING, }
@@ -14,9 +16,11 @@ class Dinosaur(Sprite):
     
 
     def __init__(self):
-        
         self.type = DEFAULT_TYPE
         self.image = RUN_IMG[self.type][0]
+        self.rect = self.image.get_rect()
+        self.rect.x = self.X_POS
+        self.rect.y = self.Y_POS
         self.reset_dino_rect()
         self.jump_velocity = self.JUMP_VELOCITY
         self.step_index = 0
@@ -24,6 +28,8 @@ class Dinosaur(Sprite):
         self.jumping = False
         self.ducking = False
         self.speed = 5 #
+    
+        self.cactus_group = pygame.sprite.Group()
         self.actions = {
                         "running": self.run,
                         "jumping": self.jump,
@@ -49,6 +55,7 @@ class Dinosaur(Sprite):
             self.ducking = False
         self.running = bool(user_input[pygame.K_r])
 
+        #comprueba si el personaje está corriendo, saltando o agachándose
         action = None
         if self.running:
             action = "running"
@@ -77,6 +84,7 @@ class Dinosaur(Sprite):
         if self.step_index >= 10:
             self.step_index = 0
         
+        
 
     def run(self):
         image_index = self.step_index // 5 % len(RUN_IMG[self.type])
@@ -101,8 +109,7 @@ class Dinosaur(Sprite):
             self.dino_rect.y = self.Y_POS_DUCK
             self.step_index += 1
 
-    def dino_bang(self):
-        pass
+
 
 
     def reset_dino_rect(self):
@@ -112,4 +119,6 @@ class Dinosaur(Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
+
+
 

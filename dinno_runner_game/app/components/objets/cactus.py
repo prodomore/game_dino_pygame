@@ -14,7 +14,7 @@ class Cactus(Sprite):
         self.rect = self.image.get_rect() #la posisicon a dibujar
         self.rect.x = x
         self.rect.y = y
-        self.speed = 5
+        self.speed = 10
 
     def update(self, game_speed, cactus):
         self.rect.x -= (game_speed + self.speed)
